@@ -7,23 +7,41 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 import Footer from '@/components/Footer';
 import PokemonList from '@/components/PokemonList';
 
 import { ICONS } from '@/lib/image';
 
-export default function PokedexPage() {
+function PokedexContent() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [query, setQuery] = useState('');
-  const [scrolled, setScrolled] = useState(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     const queryFromURL = searchParams.get('search');
     setSearchQuery(queryFromURL || '');
   }, [searchParams]);
+
+  const handlePokemonClick = (id: number) => {
+    router.push(`/pokemon/${id}`);
+  };
+
+  return (
+    <PokemonList
+      searchQuery={searchQuery}
+      pokemonList={`Search Results for "${searchQuery}"`}
+      onPokemonClick={handlePokemonClick}
+      value='text-lg-semibold md:display-xs-semibold col-span-full text-left text-neutral-900'
+    />
+  );
+}
+
+export default function PokedexPage() {
+  const [query, setQuery] = useState('');
+  const [scrolled, setScrolled] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,10 +51,7 @@ export default function PokedexPage() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  const router = useRouter();
-  const handlePokemonClick = (id: number) => {
-    router.push(`/pokemon/${id}`);
-  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
@@ -89,12 +104,9 @@ export default function PokedexPage() {
         </form>
       </div>
       <main className='mt-35'>
-        <PokemonList
-          searchQuery={searchQuery}
-          pokemonList={`Search Results for "${searchQuery}"`}
-          onPokemonClick={handlePokemonClick}
-          value='text-lg-semibold md:display-xs-semibold col-span-full text-left text-neutral-900'
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <PokedexContent />
+        </Suspense>
       </main>
       <Footer />
     </div>

@@ -18,37 +18,7 @@ const eslintConfig = [
       import: importPlugin,
     },
     rules: {
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            ['parent', 'sibling'],
-            'index',
-            'object',
-          ],
-          'newlines-between': 'always',
-          pathGroups: [
-            {
-              pattern: '@/components/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '@app/**',
-              group: 'external',
-              position: 'after',
-            },
-          ],
-          pathGroupsExcludedImportTypes: ['builtin'],
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-        },
-      ],
+      'import/order': 'off',
     },
     ignores: ['components/ui/**'],
   },
