@@ -14,5 +14,12 @@ export default function PokemonDetailPage() {
 
   if (isNaN(pokemonId)) return <div>Invalid Pokémon ID</div>;
 
-  return <PokemonDetail pokemonId={pokemonId} onBack={() => router.back()} />;
+  return (
+    <PokemonDetail
+      pokemonId={pokemonId}
+      onBack={() => router.back()}
+      onShowFavorites={() => router.push('/favorites')}
+      currentView='detail'
+    />
+  );
 }

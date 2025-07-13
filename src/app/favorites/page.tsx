@@ -4,12 +4,12 @@
 
 import { FavoritesList } from '@/components/FavoritesList';
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Header from '@/components/Navbar';
 
 export default function FavoritesPage() {
   return (
     <div>
-      <Header />
+      <Header onShowFavorites={() => {}} currentView='favorites' />
       <FavoritesList onPokemonSelect={() => {}} />
       <Footer />
     </div>

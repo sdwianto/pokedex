@@ -6,4 +6,5 @@ export const ICONS = {
   pokemon: '/icons/Pokemon.svg',
   pokeball: '/icons/Pokeball.png',
   pokeball3d: '/icons/3DPokeball.png',
+  background: '/icons/background.svg',
 };

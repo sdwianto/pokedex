@@ -25,10 +25,12 @@ export const FavoritesList: React.FC<FavoritesListProps> = ({
 
   if (favoriteIds.length === 0) {
     return (
-      <div className='favorites-empty'>
+      <div className='flex flex-col items-center justify-center py-16'>
         <div className='empty-state'>
-          <h2>No Favorites Yet</h2>
-          <p>
+          <h2 className='text-2xl leading-tight font-bold md:text-3xl'>
+            No Favorites Yet
+          </h2>
+          <p className='mt-2 text-left text-sm md:text-base'>
             Start adding Pokemon to your favorites by clicking the heart icon!
           </p>
         </div>
@@ -45,20 +47,26 @@ export const FavoritesList: React.FC<FavoritesListProps> = ({
   }
 
   return (
-    <div className='favorites-list'>
-      <div className='favorites-header'>
-        <h2>Your Favorite Pokemon</h2>
-        <p>{favoritesPokemon?.length || 0} Pokemon in your collection</p>
-      </div>
+    <div className='flex flex-col items-center justify-center gap-6'>
+      <div className='flex flex-col gap-4 py-16'>
+        <div className='favorites-header'>
+          <h2 className='text-left text-2xl leading-tight font-bold md:text-3xl'>
+            Your Favorite Pokemon
+          </h2>
+          <p className='mt-2 text-left text-sm md:text-base'>
+            {favoritesPokemon?.length || 0} Pokemon in your collection
+          </p>
+        </div>
 
-      <div className='pokemon-grid'>
-        {favoritesPokemon?.map((pokemon) => (
-          <PokemonCard
-            key={pokemon.id}
-            pokemon={pokemon}
-            onClick={() => onPokemonSelect(pokemon.id)}
-          />
-        ))}
+        <div className='pokemon-grid grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
+          {favoritesPokemon?.map((pokemon) => (
+            <PokemonCard
+              key={pokemon.id}
+              pokemon={pokemon}
+              onClick={() => onPokemonSelect(pokemon.id)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

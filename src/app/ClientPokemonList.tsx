@@ -1,17 +1,18 @@
+//src/app/ClientPokemonList.tsx
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import PokemonList from '@/components/PokemonList';
 
-export default function ClientPokemonList() {
-  const router = useRouter();
-  const [searchQuery] = useState('');
+interface ClientPokemonListProps {
+  onPokemonClick: (pokemonId: number) => void;
+}
 
-  const handlePokemonClick = (id: number) => {
-    router.push(`/pokedex/${id}`);
-  };
+export default function ClientPokemonList({
+  onPokemonClick,
+}: ClientPokemonListProps) {
+  const [searchQuery] = useState('');
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function ClientPokemonList() {
         <PokemonList
           searchQuery={searchQuery}
           pokemonList='List Pokemon'
-          onPokemonClick={handlePokemonClick}
+          onPokemonClick={onPokemonClick}
           value='display-xs-bold md:display-md-bold col-span-full text-left text-neutral-900'
         />
       </main>

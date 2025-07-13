@@ -12,7 +12,10 @@ import { LoadingSpinner } from './LoadingSpinner';
 import StatBar from './StatBar';
 import { TypeBadge } from './TypeBadge';
 
-import { selectIsFavorite } from '@/features/favoritePokemon/favoritesSlice';
+import {
+  selectFavoritesCount,
+  selectIsFavorite,
+} from '@/features/favoritePokemon/favoritesSlice';
 import { useFavoriteMutation } from '@/hooks/useFavoriteMutation';
 import { usePokemon } from '@/hooks/usePokemon';
 import { ICONS } from '@/lib/image';
@@ -23,9 +26,16 @@ interface PokemonDetailProps {
   onBack: () => void;
 }
 
-export const PokemonDetail: React.FC<PokemonDetailProps> = ({
+interface HeaderProps {
+  onShowFavorites: () => void;
+  currentView: 'list' | 'detail' | 'favorites';
+}
+
+export const PokemonDetail: React.FC<PokemonDetailProps & HeaderProps> = ({
   pokemonId,
   onBack,
+  onShowFavorites,
+  currentView,
 }) => {
   const [query, setQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
@@ -45,6 +55,7 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
     selectIsFavorite(state, pokemonId)
   );
   const favoriteMutation = useFavoriteMutation();
+  const favoritesCount = useAppSelector(selectFavoritesCount);
 
   const handleFavoriteClick = () => {
     favoriteMutation.mutate({ pokemonId, isFavorite });
@@ -64,7 +75,7 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
   return (
     <>
       {/* Header: Navbar & Search Form */}
-      <div
+      <header
         className={`fixed top-0 z-30 flex h-16 w-full items-center justify-between gap-2 border-b border-neutral-300 px-4 py-2 transition-all duration-300 md:h-20 md:px-30 ${scrolled ? 'backdrop-blur-md' : 'backdrop-blur-0'}`}
       >
         {/* Logo Section */}
@@ -85,26 +96,38 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
         </div>
 
         {/* Search Form */}
-        <form
-          onSubmit={handleSubmit}
-          className='relative flex h-10 w-[260px] items-center gap-2 rounded-full bg-neutral-100 px-4 md:h-12 md:w-[400px] md:px-6'
-        >
-          <input
-            type='text'
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder='Search Pokemon'
-            className='w-full bg-transparent text-sm text-neutral-900 placeholder:text-neutral-500 focus:outline-none md:text-base'
-          />
-          <Icon
-            icon='mynaui:search-circle-solid'
-            width={24}
-            height={24}
-            onClick={handleSubmit}
-            className='text-secondary-300 hover:text-secondary-500 cursor-pointer md:h-6 md:w-6'
-          />
-        </form>
-      </div>
+        <div className='flex items-center gap-2'>
+          <form
+            onSubmit={handleSubmit}
+            className='relative flex h-10 w-[260px] items-center gap-2 rounded-full bg-neutral-100 px-4 md:h-12 md:w-[400px] md:px-6'
+          >
+            <input
+              type='text'
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder='Search Pokemon'
+              className='w-full bg-transparent text-sm text-neutral-900 placeholder:text-neutral-500 focus:outline-none md:text-base'
+            />
+            <Icon
+              icon='mynaui:search-circle-solid'
+              width={24}
+              height={24}
+              onClick={handleSubmit}
+              className='text-secondary-300 hover:text-secondary-500 cursor-pointer md:h-6 md:w-6'
+            />
+          </form>
+          <div className='ml-auto flex items-center gap-2'>
+            <button
+              className={`text-sm-medium md:text-md-medium cursor-pointer text-center text-neutral-900 text-red-600 ${
+                currentView === 'favorites' ? 'active' : ''
+              }`}
+              onClick={onShowFavorites}
+            >
+              ♥ {favoritesCount > 0 && `(${favoritesCount})`}
+            </button>
+          </div>
+        </div>
+      </header>
       {/* Pokemon Detail */}
       <div className='z-20 mt-16 flex flex-col items-center px-6 py-12 md:mt-20 md:gap-12'>
         {/* Header: Back Button & Favorite Button */}
@@ -313,33 +336,44 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
                   key={evo.id}
                   className='gap-3 rounded-2xl border border-neutral-300 p-4 text-left'
                 >
-                  <motion.div
-                    initial={{ scale: 1, y: 0, rotate: 0 }}
-                    animate={{
-                      scale: [1, 1.05, 1],
-                      y: [0, -8, 0],
-                      rotate: [0, 2, -2, 0],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
-                    whileHover={{
-                      scale: 1.1,
-                      rotate: 4,
-                      transition: { duration: 0.3 },
-                    }}
-                  >
-                    <Image
-                      src={evo.image}
-                      alt={evo.name}
-                      width={160}
-                      height={160}
-                      className='cursor-pointer'
-                      onClick={() => router.push(`/pokedex/${evo.id}`)}
+                  <div className='relative flex h-40 w-40 items-center justify-center'>
+                    {/* Background image */}
+                    <div
+                      className='absolute inset-0 bg-contain bg-center bg-no-repeat'
+                      style={{
+                        backgroundImage: `url(${ICONS.background})`,
+                      }}
                     />
-                  </motion.div>
+
+                    {/* Animated Pokemon image */}
+                    <motion.div
+                      initial={{ scale: 1, y: 0, rotate: 0 }}
+                      animate={{
+                        scale: [1, 1.05, 1],
+                        y: [0, -8, 0],
+                        rotate: [0, 2, -2, 0],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
+                      whileHover={{
+                        scale: 1.1,
+                        rotate: 4,
+                        transition: { duration: 0.3 },
+                      }}
+                    >
+                      <Image
+                        src={evo.image}
+                        alt={evo.name}
+                        width={160}
+                        height={160}
+                        className='cursor-pointer'
+                        onClick={() => router.push(`/pokedex/${evo.id}`)}
+                      />
+                    </motion.div>
+                  </div>
                   <span className='text-md-regular text-neutral-500'>
                     00{evo.evoStage}
                   </span>
