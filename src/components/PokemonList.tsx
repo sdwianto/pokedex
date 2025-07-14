@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 import ErrorMessage from './ErrorMessage';
-import { LoadingSpinner } from './LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 import { PokemonCard } from './PokemonCard';
 
 import { fetchPokemonList } from '@/api/pokemon';

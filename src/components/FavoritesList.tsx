@@ -3,7 +3,7 @@
 import React from 'react';
 
 import ErrorMessage from './ErrorMessage';
-import { LoadingSpinner } from './LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 import { PokemonCard } from './PokemonCard';
 import { selectFavorites } from '../features/favoritePokemon/favoritesSlice';
 import { useFavoritesPokemon } from '../hooks/usePokemon';
@@ -25,7 +25,7 @@ export const FavoritesList: React.FC<FavoritesListProps> = ({
 
   if (favoriteIds.length === 0) {
     return (
-      <div className='flex flex-col items-center justify-center py-16'>
+      <div className='mt-20 flex flex-col items-center justify-center py-16'>
         <div className='empty-state'>
           <h2 className='text-2xl leading-tight font-bold md:text-3xl'>
             No Favorites Yet

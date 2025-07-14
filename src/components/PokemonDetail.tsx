@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 import ErrorMessage from './ErrorMessage';
-import { LoadingSpinner } from './LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 import StatBar from './StatBar';
 import { TypeBadge } from './TypeBadge';
 
