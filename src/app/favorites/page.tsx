@@ -9,8 +9,8 @@ import Header from '@/components/Navbar';
 export default function FavoritesPage() {
   return (
     <div>
-      <Header onShowFavorites={() => {}} currentView='favorites' />
-      <FavoritesList onPokemonSelect={() => {}} />
+      <Header currentView='favorites' />
+      <FavoritesList onPokemonSelect={(pokemon) => console.log(pokemon)} />
       <Footer />
     </div>
   );

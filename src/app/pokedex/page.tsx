@@ -40,11 +40,7 @@ function PokedexContent() {
   );
 }
 
-interface PokedexPageProps {
-  currentView: 'list' | 'detail' | 'favorites';
-}
-
-export default function PokedexPage({ currentView }: PokedexPageProps) {
+export default function PokedexPage() {
   const [query, setQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
@@ -112,9 +108,7 @@ export default function PokedexPage({ currentView }: PokedexPageProps) {
           </form>
           <div className='ml-auto flex items-center gap-2'>
             <button
-              className={`text-sm-medium md:text-md-medium cursor-pointer rounded-md border border-neutral-300 p-1 px-2 text-center text-red-500 hover:bg-red-500 hover:text-white ${
-                currentView === 'favorites' ? 'active' : ''
-              }`}
+              className='text-sm-medium md:text-md-medium cursor-pointer rounded-md border border-neutral-300 p-1 px-2 text-center text-red-500 hover:bg-red-500 hover:text-white'
               onClick={() => router.push('/favorites')}
             >
               ♥ My Favorites {favoritesCount > 0 && `(${favoritesCount})`}
