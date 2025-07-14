@@ -47,7 +47,7 @@ export const FavoritesList: React.FC<FavoritesListProps> = ({
   }
 
   return (
-    <div className='flex flex-col items-center justify-center gap-6'>
+    <div className='bg-neutral-25 mt-20 flex flex-col items-center justify-center gap-6'>
       <div className='flex flex-col gap-4 py-16'>
         <div className='favorites-header'>
           <h2 className='text-left text-2xl leading-tight font-bold md:text-3xl'>

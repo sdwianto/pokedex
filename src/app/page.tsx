@@ -36,7 +36,6 @@ const Home = () => {
   return (
     <div>
       <Navbar
-        onShowFavorites={handleShowFavorites}
         currentView={currentView}
         onShowPokemonList={handleShowPokemonList}
       />

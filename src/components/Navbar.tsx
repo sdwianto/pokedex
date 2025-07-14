@@ -9,13 +9,11 @@ import { selectFavoritesCount } from '@/features/favoritePokemon/favoritesSlice'
 import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
-  onShowFavorites: () => void;
   currentView: 'list' | 'detail' | 'favorites';
   onShowPokemonList?: () => void;
 }
 
 export default function Navbar({
-  onShowFavorites,
   currentView,
   onShowPokemonList,
 }: HeaderProps) {
@@ -62,12 +60,12 @@ export default function Navbar({
         {/* Tombol Favorites di kanan */}
         <div className='ml-auto flex items-center gap-2'>
           <button
-            className={`text-sm-medium md:text-md-medium cursor-pointer text-center text-neutral-900 text-red-600 ${
+            className={`text-sm-medium md:text-md-medium cursor-pointer rounded-md border border-neutral-300 p-1 px-2 text-center text-red-500 hover:bg-red-500 hover:text-white ${
               currentView === 'favorites' ? 'active' : ''
             }`}
-            onClick={onShowFavorites}
+            onClick={() => router.push('/favorites')}
           >
-            ♥ {favoritesCount > 0 && `(${favoritesCount})`}
+            ♥ My Favorites {favoritesCount > 0 && `(${favoritesCount})`}
           </button>
         </div>
       </header>
