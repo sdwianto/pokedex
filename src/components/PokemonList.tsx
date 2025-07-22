@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import ErrorMessage from './ErrorMessage';
 import LoadingSpinner from './LoadingSpinner';
@@ -98,17 +99,26 @@ export default function PokemonList({
 
   return (
     <div className='flex flex-col items-center justify-center gap-6'>
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-        <p className={value}>{pokemonList}</p>
-        {filtered.map((pokemon) => (
-          <PokemonCard
-            key={pokemon.id}
-            pokemon={pokemon}
-            onClick={() => onPokemonClick(pokemon.id)}
-          />
-        ))}
-      </div>
-
+      <AnimatePresence mode='wait'>
+        <motion.div
+          key={searchQuery + filtered.length}
+          initial={{ scaleY: 0, opacity: 0, transformOrigin: 'top' }}
+          animate={{ scaleY: 1, opacity: 1, transformOrigin: 'top' }}
+          exit={{ scaleY: 0, opacity: 0, transformOrigin: 'top' }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+        >
+          <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+            <p className={value}>{pokemonList}</p>
+            {filtered.map((pokemon) => (
+              <PokemonCard
+                key={pokemon.id}
+                pokemon={pokemon}
+                onClick={() => onPokemonClick(pokemon.id)}
+              />
+            ))}
+          </div>
+        </motion.div>
+      </AnimatePresence>
       <button
         onClick={handleLoadMore}
         disabled={isLoadingMore}

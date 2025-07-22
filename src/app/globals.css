@@ -242,3 +242,49 @@ img {
   -webkit-user-drag: none; /* Safari */
   -webkit-user-select: none; /* Safari */
 }
+
+@keyframes swap-left-right {
+  0% {
+    left: 0;
+    right: auto;
+    transform: translateX(0);
+  }
+  49% {
+    left: calc(100% - 161px); /* width gambar Charizard */
+    right: auto;
+    transform: translateX(0);
+  }
+  50% {
+    left: auto;
+    right: 0;
+    transform: translateX(0);
+  }
+  100% {
+    left: 0;
+    right: auto;
+    transform: translateX(0);
+  }
+}
+
+@keyframes swap-right-left {
+  0% {
+    right: 0;
+    left: auto;
+    transform: translateX(0);
+  }
+  49% {
+    right: calc(100% - 147px); /* width gambar Pikachu */
+    left: auto;
+    transform: translateX(0);
+  }
+  50% {
+    right: auto;
+    left: 0;
+    transform: translateX(0);
+  }
+  100% {
+    right: 0;
+    left: auto;
+    transform: translateX(0);
+  }
+}

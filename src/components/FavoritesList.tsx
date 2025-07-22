@@ -8,6 +8,7 @@ import { PokemonCard } from './PokemonCard';
 import { selectFavorites } from '../features/favoritePokemon/favoritesSlice';
 import { useFavoritesPokemon } from '../hooks/usePokemon';
 import { useAppSelector } from '../store/hooks';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface FavoritesListProps {
   onPokemonSelect: (pokemonId: number) => void;
@@ -47,7 +48,7 @@ export const FavoritesList: React.FC<FavoritesListProps> = ({
   }
 
   return (
-    <div className='bg-neutral-25 mt-20 flex flex-col items-center justify-center gap-6'>
+    <div className='flex flex-col items-center justify-center gap-6'>
       <div className='flex flex-col gap-4 py-16'>
         <div className='favorites-header'>
           <h2 className='text-left text-2xl leading-tight font-bold md:text-3xl'>
@@ -57,16 +58,25 @@ export const FavoritesList: React.FC<FavoritesListProps> = ({
             {favoritesPokemon?.length || 0} Pokemon in your collection
           </p>
         </div>
-
-        <div className='pokemon-grid grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
-          {favoritesPokemon?.map((pokemon) => (
-            <PokemonCard
-              key={pokemon.id}
-              pokemon={pokemon}
-              onClick={() => onPokemonSelect(pokemon.id)}
-            />
-          ))}
-        </div>
+        <AnimatePresence mode='wait'>
+          <motion.div
+            key={favoritesPokemon?.length}
+            initial={{ scaleY: 0, opacity: 0, transformOrigin: 'top' }}
+            animate={{ scaleY: 1, opacity: 1, transformOrigin: 'top' }}
+            exit={{ scaleY: 0, opacity: 0, transformOrigin: 'top' }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+          >
+            <div className='pokemon-grid grid grid-cols-1 gap-4 md:grid-cols-4'>
+              {favoritesPokemon?.map((pokemon) => (
+                <PokemonCard
+                  key={pokemon.id}
+                  pokemon={pokemon}
+                  onClick={() => onPokemonSelect(pokemon.id)}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

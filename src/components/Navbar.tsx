@@ -60,12 +60,12 @@ export default function Navbar({
         {/* Tombol Favorites di kanan */}
         <div className='ml-auto flex items-center gap-2'>
           <button
-            className={`text-sm-medium md:text-md-medium cursor-pointer rounded-md border border-neutral-300 p-1 px-2 text-center text-red-500 hover:bg-red-500 hover:text-white ${
+            className={`text-sm-regular md:text-md-medium cursor-pointer rounded-md border border-neutral-300 p-1 px-2 text-center text-red-500 hover:bg-red-500 hover:text-white ${
               currentView === 'favorites' ? 'active' : ''
             }`}
             onClick={() => router.push('/favorites')}
           >
-            ♥ My Favorites {favoritesCount > 0 && `(${favoritesCount})`}
+            ♥ Favorites {favoritesCount > 0 && `(${favoritesCount})`}
           </button>
         </div>
       </header>
